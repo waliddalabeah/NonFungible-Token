@@ -46,7 +46,10 @@ contract ERC721BasicToken is SupportsInterfaceWithLookup, ERC721Basic {
    */
    // number 1
   function balanceOf(address _owner) public view returns (uint256) {
-    // YOUR CODE HERE
+    // YOUR CODE HERE   
+    
+    return ownedTokensCount[_owner];
+   
 
   }
 
@@ -57,9 +60,9 @@ contract ERC721BasicToken is SupportsInterfaceWithLookup, ERC721Basic {
    */
     // number 2
     //hint: the owner should be exist to return its address
-  function ownerOf(uint256 _tokenId) public view returns (address) {
+  function ownerOf(uint256 _tokenId) public view returns (address ) {
     // YOUR CODE HERE
-
+    return  tokenOwner[_tokenId];
   }
 
   /**
@@ -70,7 +73,7 @@ contract ERC721BasicToken is SupportsInterfaceWithLookup, ERC721Basic {
     // number 3
   function exists(uint256 _tokenId) public view returns (bool) {
     // YOUR CODE HERE
-
+     address owner = tokenOwner[_tokenId];
   }
     /**
    * @dev Tells whether an operator is approved by a given owner
@@ -88,7 +91,8 @@ contract ERC721BasicToken is SupportsInterfaceWithLookup, ERC721Basic {
     returns (bool)
   {
     // YOUR CODE HERE
-
+   return operatorApprovals[_owner][_operator];
+   
   }
 
 
@@ -104,7 +108,9 @@ contract ERC721BasicToken is SupportsInterfaceWithLookup, ERC721Basic {
     // hint: the approver should be the owner or should be approved for all tokens that owned by the owner
   function approve(address _to, uint256 _tokenId) public {
     // YOUR CODE HERE
-
+     require( _to != tokenOwner[_tokenId]);
+     require( msg.sender == tokenOwner[_tokenId] || msg.sender == tokenApprovals[_tokenId] );
+     tokenApprovals[_tokenId] = _to;
   }
 
   /**
@@ -115,7 +121,8 @@ contract ERC721BasicToken is SupportsInterfaceWithLookup, ERC721Basic {
     // number 6
   function getApproved(uint256 _tokenId) public view returns (address) {
     // YOUR CODE HERE
-
+    return tokenApprovals[_tokenId];
+    
   }
 
   /**
@@ -127,7 +134,7 @@ contract ERC721BasicToken is SupportsInterfaceWithLookup, ERC721Basic {
     // number 7
   function setApprovalForAll(address _to, bool _approved) public {
     // YOUR CODE HERE
-
+     operatorApprovals[_approved] = _to;
   }
 
   /**
